@@ -30,6 +30,7 @@ install_miniforge() {
 	if [ "$FORCE_REBUILD" -eq 0 ]; then
 		existing=$(find_reusable_conda || true)
 		if [ -n "$existing" ]; then
+			# zsh/profile.sh consumes the selected conda paths when writing .zshrc.
 			SELECTED_CONDA_BIN=$existing
 			set_selected_conda_paths
 			if [ "$existing" = "$MINIFORGE_DIR/bin/conda" ]; then
@@ -51,6 +52,7 @@ install_miniforge() {
 		if [ "$FORCE_REBUILD" -eq 1 ]; then
 			remove_path_under_prefix "$MINIFORGE_DIR"
 		else
+			# A prefix conda tree without a matching stamp may not be ours.
 			warn "Existing Miniforge directory found without matching bootstrap stamp: $MINIFORGE_DIR"
 			warn "Leaving it in place. Re-run with --force-rebuild to replace it."
 			return
@@ -65,6 +67,7 @@ install_miniforge() {
 		bash "$installer" -b -p "$MINIFORGE_DIR"
 	fi
 	write_stamp "miniforge" "$MINIFORGE_VERSION"
+	# Later zshrc generation uses these globals for conda initialization.
 	SELECTED_CONDA_BIN="$MINIFORGE_DIR/bin/conda"
 	MANAGE_MINIFORGE_CONFIG=1
 	set_selected_conda_paths

@@ -25,6 +25,7 @@ install_oh_my_zsh_and_plugins() {
 	if [ "$FORCE_REBUILD" -eq 0 ]; then
 		existing=$(find_reusable_oh_my_zsh || true)
 		if [ -n "$existing" ]; then
+			# zshrc generation consumes the selected Oh My Zsh paths.
 			SELECTED_OMZ_DIR=$existing
 			if [ "$existing" = "$omz_dir" ] && stamp_matches "oh-my-zsh" "$OMZ_COMMIT"; then
 				log "Oh My Zsh $OMZ_COMMIT already installed; skipping."
@@ -53,6 +54,7 @@ install_oh_my_zsh_and_plugins() {
 	else
 		custom_dir="$PREFIX/share/oh-my-zsh-custom"
 	fi
+	# configure_zshrc uses this selected custom directory for plugin loading.
 	SELECTED_ZSH_CUSTOM_DIR=$custom_dir
 	custom_plugins="$custom_dir/plugins"
 	ensure_dir "$custom_plugins"

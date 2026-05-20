@@ -30,21 +30,28 @@ load_bootstrap_module() {
 	. "$BOOTSTRAP_ENV_ROOT/$module"
 }
 
-load_bootstrap_module modules/core/config.sh
-load_bootstrap_module modules/core/logging.sh
-load_bootstrap_module modules/core/paths.sh
-load_bootstrap_module modules/core/commands.sh
-load_bootstrap_module modules/cli/args.sh
-load_bootstrap_module modules/platform/detect.sh
-load_bootstrap_module modules/sources/urls.sh
-load_bootstrap_module modules/sources/archive.sh
-load_bootstrap_module modules/build/common.sh
-load_bootstrap_module modules/build/native_tools.sh
-load_bootstrap_module modules/files/managed.sh
-load_bootstrap_module modules/conda/miniforge.sh
-load_bootstrap_module modules/shell/oh_my_zsh.sh
-load_bootstrap_module modules/shell/profile.sh
-load_bootstrap_module modules/ssh/authorized_keys.sh
-load_bootstrap_module modules/app/main.sh
+# Load order is a maintenance contract: modules share one shell namespace.
+# Keep providers before modules that call their functions or read their globals.
+load_bootstrap_module core/config.sh
+load_bootstrap_module core/logging.sh
+load_bootstrap_module core/paths.sh
+load_bootstrap_module core/commands.sh
+load_bootstrap_module core/managed-files.sh
+load_bootstrap_module core/urls.sh
+load_bootstrap_module core/sources.sh
+load_bootstrap_module core/build-flags.sh
+
+load_bootstrap_module cli/args.sh
+load_bootstrap_module platform/detect.sh
+
+load_bootstrap_module tmux/deps.sh
+load_bootstrap_module zsh/zsh.sh
+load_bootstrap_module tmux/tmux.sh
+load_bootstrap_module conda/miniforge.sh
+load_bootstrap_module zsh/oh-my-zsh.sh
+load_bootstrap_module zsh/profile.sh
+load_bootstrap_module ssh/authorized-keys.sh
+
+load_bootstrap_module app/main.sh
 
 main "$@"

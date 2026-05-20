@@ -2,33 +2,30 @@
 
 ## Project Structure & Module Organization
 
-This repository is organized around a thin Bash entrypoint plus small domain modules:
+This repository is organized around a thin Bash entrypoint plus root-level capability modules:
 
-- `bootstrap_env.sh`: executable entrypoint that sets strict shell options, resolves the repository root, loads modules, and calls `main`.
-- `modules/`: Bash modules grouped by responsibility. Each module directory must include a `README.md` that describes its scope.
-- `modules/app/`: top-level orchestration.
-- `modules/core/`: shared config, logging, paths, and command wrappers.
-- `modules/cli/`: help text, argument parsing, and run summaries.
-- `modules/platform/`: OS/architecture detection and prerequisite checks.
-- `modules/sources/`: source URLs, downloads, archive unpacking, and install stamps.
-- `modules/build/`: source builds for native tools such as ncurses, libevent, zsh, and tmux.
-- `modules/conda/`: Miniforge and conda configuration.
-- `modules/shell/`: Oh My Zsh, plugins, `.zshrc`, and login profile integration.
-- `modules/files/`: safe updates to user-managed files.
-- `modules/ssh/`: optional `authorized_keys` setup.
-- `AGENTS.md`: contributor and agent workflow guidance.
+- `bootstrap_env.sh`: executable entrypoint that sets strict shell options, resolves the repository root, loads modules in dependency order, and calls `main`.
+- `app/`: top-level orchestration only.
+- `core/`: shared config, logging, paths, command wrappers, URL/source helpers, build flags, install stamps, and safe managed-file updates.
+- `cli/`: help text, argument parsing, option validation, and run summaries.
+- `platform/`: OS/architecture detection, job count selection, compiler detection, and prerequisite checks.
+- `zsh/`: zsh build, Oh My Zsh, zsh plugins, `.zshrc`, and login profile integration.
+- `tmux/`: tmux build plus ncurses/libevent native dependency builders used by the terminal toolchain.
+- `conda/`: Miniforge and conda configuration.
+- `ssh/`: optional `authorized_keys` setup.
+- `docs/`: development plans and design notes.
 
-Keep `bootstrap_env.sh` small. Add behavior to the module that owns it, and update that module's `README.md` when the responsibility or contract changes. Preserve the flat top level unless a new root file has a clear maintenance purpose, such as `README.md`, `CHANGELOG.md`, or focused test fixtures.
+Each root-level capability directory must include a `README.md` that describes its scope and module contract. Keep `bootstrap_env.sh` small. Add behavior to the module that owns it, and update that module's `README.md` when the responsibility or contract changes. Preserve the flat top level unless a new root file has a clear maintenance purpose, such as `README.md`, `CHANGELOG.md`, or focused test fixtures.
 
 ## Build, Test, and Development Commands
 
 Use these commands from the repository root:
 
 - `bash -n bootstrap_env.sh`: validates Bash syntax without running the script.
-- `find modules -name '*.sh' -exec bash -n {} \;`: validates module syntax.
+- `find app cli platform core zsh tmux conda ssh -name '*.sh' -exec bash -n {} \;`: validates module syntax.
 - `bash bootstrap_env.sh --help`: checks CLI option output.
 - `env HOME=/private/tmp/bootstrap_env_dry_home bash bootstrap_env.sh --dry-run --jobs 2 --no-ssh-key`: verifies platform detection, URLs, planned writes, and dry-run flow without modifying a real home directory.
-- `shellcheck bootstrap_env.sh modules/*/*.sh`: run when available for static linting.
+- `shellcheck bootstrap_env.sh app/*.sh cli/*.sh platform/*.sh core/*.sh zsh/*.sh tmux/*.sh conda/*.sh ssh/*.sh`: run when available for static linting.
 
 Avoid full install runs during routine edits unless you intend to download and build dependencies.
 
@@ -38,9 +35,9 @@ Target Bash 3.2 compatibility for macOS system Bash. Use portable shell patterns
 
 Prefer explicit checks and clear error messages over implicit failures. Keep comments short and only where they clarify non-obvious behavior.
 
-Modules share process-global shell state. Define global defaults in `modules/core/config.sh`, keep helpers in `modules/core/`, and avoid hidden dependencies between distant modules. If a module needs state selected by another module, use a clearly named global such as `SELECTED_ZSH_BIN`.
+Modules share process-global shell state. Define global defaults in `core/config.sh`, keep generic helpers in `core/`, and avoid hidden dependencies between distant modules. If a module needs state selected by another module, use a clearly named global such as `SELECTED_ZSH_BIN`.
 
-The load order in `bootstrap_env.sh` is part of the contract. When adding a module, place it after the modules that define the functions and globals it consumes.
+The load order in `bootstrap_env.sh` is part of the contract. When adding a module, place it after the modules that define the functions and globals it consumes. Document any new entry function or cross-module global in the owning directory's `README.md`.
 
 ## Testing Guidelines
 

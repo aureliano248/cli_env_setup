@@ -23,6 +23,7 @@ write_stamp() {
 remove_path_under_prefix() {
 	case "$1" in
 		"$PREFIX"/*)
+			# Destructive rebuild cleanup is limited to the managed prefix.
 			run_cmd rm -rf "$1"
 			;;
 		*)
@@ -119,6 +120,7 @@ install_archive_component() {
 		log "$component $version already installed; skipping."
 		return
 	fi
+	# Existing directories without a matching stamp may be user-managed.
 	if [ "$FORCE_REBUILD" -eq 0 ] && [ -d "$dest" ]; then
 		warn "Existing $component directory found; leaving it in place: $dest"
 		warn "Re-run with --force-rebuild to replace it with $version."

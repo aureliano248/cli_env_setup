@@ -1,4 +1,5 @@
 main() {
+	# Normalize user input before any install decision reads global state.
 	parse_args "$@"
 	detect_platform
 	detect_jobs
@@ -7,10 +8,13 @@ main() {
 	print_summary
 	check_prerequisites
 
+	# Build only missing native terminal tools and their managed dependencies.
 	build_ncurses
 	build_libevent
 	build_zsh
 	build_tmux
+
+	# Select or install shell/runtime integrations, then write managed blocks.
 	install_miniforge
 	write_condarc
 	install_oh_my_zsh_and_plugins
@@ -18,6 +22,7 @@ main() {
 	configure_login_profile
 	configure_ssh_key
 
+	# SELECTED_ZSH_BIN is set by zsh/zsh.sh and consumed by login guidance.
 	log ""
 	log "Bootstrap complete."
 	if [ -n "$SELECTED_ZSH_BIN" ]; then

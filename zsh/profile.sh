@@ -1,4 +1,5 @@
 choose_login_profile_file() {
+	# configure_login_profile writes to the selected login profile later.
 	if [ -f "$HOME/.bash_profile" ]; then
 		LOGIN_PROFILE_FILE="$HOME/.bash_profile"
 	else

@@ -113,13 +113,13 @@ find_yacc() {
 	fi
 
 	if [ -n "${PREFIX:-}" ] && [ -x "$PREFIX/bin/yacc" ]; then
-		YACC_CMD="$PREFIX/bin/yacc"
+		YACC_CMD="yacc"
 	elif found=$(command_path yacc); then
-		YACC_CMD=$found
+		YACC_CMD="yacc"
 	elif found=$(command_path bison); then
-		YACC_CMD="$found -y"
+		YACC_CMD="bison -y"
 	elif found=$(command_path byacc); then
-		YACC_CMD=$found
+		YACC_CMD="byacc"
 	else
 		return 1
 	fi

@@ -11,7 +11,7 @@ build_byacc() {
 	local src
 	if [ "$FORCE_REBUILD" -eq 0 ] && is_byacc_installed; then
 		log "byacc $BYACC_VERSION already installed; using $PREFIX/bin/yacc."
-		YACC_CMD="$PREFIX/bin/yacc"
+		YACC_CMD="yacc"
 		return
 	fi
 	if [ "$FORCE_REBUILD" -eq 0 ] && [ -e "$PREFIX/bin/yacc" ]; then
@@ -27,5 +27,5 @@ build_byacc() {
 	run_in_dir "$src" make -j "$JOBS"
 	run_in_dir "$src" make install
 	write_stamp "byacc" "$BYACC_VERSION"
-	YACC_CMD="$PREFIX/bin/yacc"
+	YACC_CMD="yacc"
 }

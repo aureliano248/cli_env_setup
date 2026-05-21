@@ -100,7 +100,7 @@ channel_priority: strict
 auto_activate_base: false
 show_channnel_urls: true
 custom_channels:
-	conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 EOF
 	if [ -f "$file" ] && cmp -s "$tmp" "$file"; then
 		rm -rf "$tmpdir"

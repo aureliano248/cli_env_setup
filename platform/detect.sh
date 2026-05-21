@@ -85,27 +85,41 @@ find_compiler() {
 }
 
 find_yacc() {
-	local yacc_prog
+	local found suffix yacc_prog
 	if [ -n "${YACC:-}" ]; then
 		yacc_prog=$YACC
 		case "$yacc_prog" in
 			*[[:space:]]*) yacc_prog=${yacc_prog%%[[:space:]]*} ;;
 		esac
-		if [ -n "$yacc_prog" ] && command_exists "$yacc_prog"; then
-			YACC_CMD=$YACC
-			return
+		if [ -n "$yacc_prog" ]; then
+			case "$yacc_prog" in
+				*/*)
+					if [ -x "$yacc_prog" ]; then
+						YACC_CMD=$YACC
+						return
+					fi
+					;;
+				*)
+					found=$(command_path "$yacc_prog" || true)
+					if [ -n "$found" ]; then
+						suffix=${YACC#"$yacc_prog"}
+						YACC_CMD="$found$suffix"
+						return
+					fi
+					;;
+			esac
 		fi
 		die "YACC is set but its executable was not found: $YACC"
 	fi
 
 	if [ -n "${PREFIX:-}" ] && [ -x "$PREFIX/bin/yacc" ]; then
 		YACC_CMD="$PREFIX/bin/yacc"
-	elif command_exists yacc; then
-		YACC_CMD=yacc
-	elif command_exists bison; then
-		YACC_CMD="bison -y"
-	elif command_exists byacc; then
-		YACC_CMD=byacc
+	elif found=$(command_path yacc); then
+		YACC_CMD=$found
+	elif found=$(command_path bison); then
+		YACC_CMD="$found -y"
+	elif found=$(command_path byacc); then
+		YACC_CMD=$found
 	else
 		return 1
 	fi

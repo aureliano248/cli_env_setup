@@ -8,7 +8,7 @@
 
 - `config.sh`: version pins, default flags, selected-path globals, and mutable state.
 - `logging.sh`: `log`, `warn`, and `die`.
-- `paths.sh`: command lookup, absolute paths, trailing slash stripping, shell quoting, argument formatting, and temporary directory creation.
+- `paths.sh`: command lookup, executable path resolution, absolute paths, trailing slash stripping, shell quoting, argument formatting, and temporary directory creation.
 - `commands.sh`: normal/dry-run command execution helpers.
 - `managed-files.sh`: timestamped backups and marker-bounded managed block updates.
 - `urls.sh`: download URL construction from pinned versions and platform values.
@@ -17,7 +17,7 @@
 
 ## Entry Functions
 
-Other modules call `command_exists`, `ensure_dir`, `run_cmd`, `run_in_dir`, `write_managed_block`, `set_urls`, `fetch_source`, `install_archive_component`, `stamp_matches`, `write_stamp`, `common_cppflags`, `common_ldflags`, `common_pkg_config_path`, and `native_build_path`.
+Other modules call `command_exists`, `command_path`, `ensure_dir`, `run_cmd`, `run_in_dir`, `write_managed_block`, `set_urls`, `fetch_source`, `install_archive_component`, `stamp_matches`, `write_stamp`, `common_cppflags`, `common_ldflags`, `common_pkg_config_path`, and `native_build_path`.
 
 ## Inputs
 

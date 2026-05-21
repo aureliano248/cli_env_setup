@@ -19,16 +19,10 @@ configure_zshrc() {
 
 	tmpdir=$(make_temp_dir)
 	block="$tmpdir/zshrc.block"
-	if [ -z "$SELECTED_OMZ_DIR" ] || [ -z "$SELECTED_ZSH_CUSTOM_DIR" ]; then
-		warn "No reusable or installed Oh My Zsh was selected; skipping zshrc update."
-		rm -rf "$tmpdir"
-		return
-	fi
 	q_prefix=$(shell_quote "$PREFIX")
-	q_omz=$(shell_quote "$SELECTED_OMZ_DIR")
-	q_zsh_custom=$(shell_quote "$SELECTED_ZSH_CUSTOM_DIR")
 
 	cat > "$block" <<EOF
+# bootstrap_env: prefix-built commands
 export BOOTSTRAP_PREFIX=$q_prefix
 if [ -d "\$BOOTSTRAP_PREFIX/bin" ]; then
   case ":\$PATH:" in
@@ -36,7 +30,14 @@ if [ -d "\$BOOTSTRAP_PREFIX/bin" ]; then
     *) export PATH="\$BOOTSTRAP_PREFIX/bin:\$PATH" ;;
   esac
 fi
+EOF
 
+	if [ -n "$SELECTED_OMZ_DIR" ] && [ -n "$SELECTED_ZSH_CUSTOM_DIR" ]; then
+		q_omz=$(shell_quote "$SELECTED_OMZ_DIR")
+		q_zsh_custom=$(shell_quote "$SELECTED_ZSH_CUSTOM_DIR")
+		cat >> "$block" <<EOF
+
+# bootstrap_env: Oh My Zsh
 export ZSH=$q_omz
 export ZSH_CUSTOM=$q_zsh_custom
 ZSH_THEME="robbyrussell"
@@ -48,6 +49,9 @@ if [ -r "\$ZSH/oh-my-zsh.sh" ]; then
   source "\$ZSH/oh-my-zsh.sh"
 fi
 EOF
+	else
+		warn "No reusable or installed Oh My Zsh was selected; writing prefix PATH only."
+	fi
 
 	if [ -n "$SELECTED_CONDA_BIN" ]; then
 		conda_bin_dir=${SELECTED_CONDA_BIN%/conda}
@@ -55,6 +59,7 @@ EOF
 		q_conda_sh=$(shell_quote "$SELECTED_CONDA_SH")
 		{
 			printf '\n'
+			printf '# bootstrap_env: conda\n'
 			if [ "$MANAGE_MINIFORGE_CONFIG" -eq 1 ]; then
 				q_condarc=$(shell_quote "$MINIFORGE_DIR/.condarc")
 				printf 'export CONDARC=%s\n' "$q_condarc"

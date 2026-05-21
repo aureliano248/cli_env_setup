@@ -2,6 +2,20 @@ command_exists() {
 	command -v "$1" >/dev/null 2>&1
 }
 
+command_path() {
+	local found
+	found=$(command -v "$1" 2>/dev/null || true)
+	case "$found" in
+		*/*)
+			[ -x "$found" ] || return 1
+			printf '%s\n' "$found"
+			;;
+		*)
+			return 1
+			;;
+	esac
+}
+
 absolute_path() {
 	case "$1" in
 		/*) printf '%s\n' "$1" ;;

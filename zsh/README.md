@@ -32,7 +32,7 @@ Possible writes include `$PREFIX/bin/zsh`, `$PREFIX/share/zsh`, `$PREFIX/share/o
 
 ## Reuse And Skip Behavior
 
-`build_zsh` reuses `$PREFIX/bin/zsh` when executable or a host `zsh` matching the pinned version. Existing prefix zsh paths that are not reusable are preserved unless `--force-rebuild` is used. Oh My Zsh is reused from the prefix, `$ZSH`, or `$HOME/.oh-my-zsh`; plugins are managed under the selected custom directory.
+`build_zsh` reuses `$PREFIX/bin/zsh` when executable or a host `zsh` matching the pinned version. Existing prefix zsh paths that are not reusable are preserved unless `--force-rebuild` is used. `configure_zshrc` always writes the prefix `PATH` block, even when Oh My Zsh is not selected. Oh My Zsh is reused from the prefix, `$ZSH`, or `$HOME/.oh-my-zsh`; plugins are managed under the selected custom directory.
 
 ## Dry Run And Force Rebuild
 

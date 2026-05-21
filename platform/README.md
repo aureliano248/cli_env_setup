@@ -32,7 +32,7 @@ Normal runs create a temporary compiler probe under `${TMPDIR:-/tmp}` and remove
 
 ## Reuse And Skip Behavior
 
-`ensure_c_build_tools` and `ensure_native_build_tools` run only once per process by checking `C_BUILD_TOOLS_CHECKED` and `NATIVE_BUILD_TOOLS_CHECKED`. Host `yacc`, host `bison -y`, host `byacc`, and `$PREFIX/bin/yacc` are reused before source-building byacc.
+`ensure_c_build_tools` and `ensure_native_build_tools` run only once per process by checking `C_BUILD_TOOLS_CHECKED` and `NATIVE_BUILD_TOOLS_CHECKED`. Host `yacc`, host `bison -y`, host `byacc`, and `$PREFIX/bin/yacc` are reused before source-building byacc, but host parser generators must resolve to real executable paths rather than shell aliases or functions.
 
 ## Dry Run And Force Rebuild
 

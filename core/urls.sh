@@ -4,7 +4,7 @@ set_urls() {
 	NCURSES_URL="https://ftp.gnu.org/gnu/ncurses/ncurses-$NCURSES_VERSION.tar.gz"
 	LIBEVENT_URL="https://github.com/libevent/libevent/releases/download/release-$LIBEVENT_VERSION/libevent-$LIBEVENT_VERSION.tar.gz"
 	TMUX_URL="https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/tmux-$TMUX_VERSION.tar.gz"
-	MINIFORGE_URL="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/Release%2026.3.2-2/$MINIFORGE_VERSION/Miniforge3-$MINIFORGE_VERSION-$MINIFORGE_OS-$MINIFORGE_ARCH.sh"
+	MINIFORGE_URL="https://mirrors.tuna.tsinghua.edu.cn/github-release/conda-forge/miniforge/Release%20$MINIFORGE_VERSION/Miniforge3-$MINIFORGE_VERSION-$MINIFORGE_OS-$MINIFORGE_ARCH.sh"
 	OMZ_URL="https://github.com/ohmyzsh/ohmyzsh/archive/$OMZ_COMMIT.tar.gz"
 	ZSH_AUTOSUGGESTIONS_URL="https://github.com/zsh-users/zsh-autosuggestions/archive/refs/tags/$ZSH_AUTOSUGGESTIONS_VERSION.tar.gz"
 	ZSH_COMPLETIONS_URL="https://github.com/zsh-users/zsh-completions/archive/refs/tags/$ZSH_COMPLETIONS_VERSION.tar.gz"

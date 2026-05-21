@@ -84,6 +84,31 @@ find_compiler() {
 	fi
 }
 
+find_yacc() {
+	local yacc_prog
+	if [ -n "${YACC:-}" ]; then
+		yacc_prog=$YACC
+		case "$yacc_prog" in
+			*[[:space:]]*) yacc_prog=${yacc_prog%%[[:space:]]*} ;;
+		esac
+		if [ -n "$yacc_prog" ] && command_exists "$yacc_prog"; then
+			YACC_CMD=$YACC
+			return
+		fi
+		die "YACC is set but its executable was not found: $YACC"
+	fi
+
+	if command_exists yacc; then
+		YACC_CMD=yacc
+	elif command_exists bison; then
+		YACC_CMD="bison -y"
+	elif command_exists byacc; then
+		YACC_CMD=byacc
+	else
+		die "Missing parser generator. Install or expose yacc, bison, or byacc before running this no-sudo bootstrap."
+	fi
+}
+
 verify_compiler_works() {
 	local tmp
 	if [ "$DRY_RUN" -eq 1 ]; then
@@ -135,6 +160,7 @@ ensure_native_build_tools() {
 	fi
 
 	find_compiler
+	find_yacc
 	verify_compiler_works
 	NATIVE_BUILD_TOOLS_CHECKED=1
 }

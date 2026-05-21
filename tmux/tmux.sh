@@ -51,6 +51,7 @@ build_tmux() {
 	fetch_source "tmux" "$TMUX_URL" "tmux-$TMUX_VERSION.tar.gz" "$src"
 	run_in_dir "$src" env \
 		CC="$CC_BIN" \
+		YACC="$YACC_CMD" \
 		CPPFLAGS="$cppflags" \
 		LDFLAGS="$ldflags" \
 		PKG_CONFIG_PATH="$pkg_config_path" \

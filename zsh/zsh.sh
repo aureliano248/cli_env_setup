@@ -48,7 +48,7 @@ build_zsh() {
 	fi
 	src="$SOURCE_DIR/zsh-$ZSH_VERSION"
 	fetch_source "zsh" "$ZSH_URL" "zsh-$ZSH_VERSION.tar.xz" "$src"
-	run_in_dir "$src" env CC="$CC_BIN" CPPFLAGS="$(common_cppflags)" LDFLAGS="$(common_ldflags)" PKG_CONFIG_PATH="$(common_pkg_config_path)" LIBS="-lncursesw" ./configure \
+	run_in_dir "$src" env CC="$CC_BIN" YACC="$YACC_CMD" CPPFLAGS="$(common_cppflags)" LDFLAGS="$(common_ldflags)" PKG_CONFIG_PATH="$(common_pkg_config_path)" LIBS="-lncursesw" ./configure \
 		--prefix="$PREFIX" \
 		--enable-multibyte \
 		--enable-function-subdirs \

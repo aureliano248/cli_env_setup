@@ -6,22 +6,22 @@
 
 ## Files
 
-- `detect.sh`: defines platform detection, job detection, compiler checks, and prerequisite checks.
+- `detect.sh`: defines platform detection, job detection, compiler/parser-generator checks, and prerequisite checks.
 
 ## Entry Functions
 
 - `detect_platform`: sets normalized OS, architecture, shared-library extension, and Miniforge platform values.
 - `detect_jobs`: validates or detects the build job count.
 - `check_prerequisites`: verifies baseline commands required by the bootstrap.
-- `ensure_native_build_tools`: finds a compiler, verifies it can build a trivial program, and checks native build tools.
+- `ensure_native_build_tools`: finds a compiler and parser generator, verifies the compiler can build a trivial program, and checks native build tools.
 
 ## Inputs
 
-Inputs are `JOBS`, optional `CC`, `DRY_RUN`, and host commands such as `uname`, `getconf`, `sysctl`, `cc`, `gcc`, and `clang`.
+Inputs are `JOBS`, optional `CC`, optional `YACC`, `DRY_RUN`, and host commands such as `uname`, `getconf`, `sysctl`, `cc`, `gcc`, `clang`, `yacc`, `bison`, and `byacc`.
 
 ## Outputs
 
-This module sets `OS_NAME`, `ARCH_NAME`, `MINIFORGE_OS`, `MINIFORGE_ARCH`, `SHLIB_EXT`, `JOBS`, `CC_BIN`, and `NATIVE_BUILD_TOOLS_CHECKED`.
+This module sets `OS_NAME`, `ARCH_NAME`, `MINIFORGE_OS`, `MINIFORGE_ARCH`, `SHLIB_EXT`, `JOBS`, `CC_BIN`, `YACC_CMD`, and `NATIVE_BUILD_TOOLS_CHECKED`.
 
 ## Writes
 

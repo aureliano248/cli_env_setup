@@ -33,7 +33,7 @@ build_ncurses() {
 	ensure_native_build_tools
 	src="$SOURCE_DIR/ncurses-$NCURSES_VERSION"
 	fetch_source "ncurses" "$NCURSES_URL" "ncurses-$NCURSES_VERSION.tar.gz" "$src"
-	run_in_dir "$src" env CC="$CC_BIN" YACC="$YACC_CMD" ./configure \
+	run_in_dir "$src" env CC="$CC_BIN" YACC="$YACC_CMD" PATH="$(native_build_path)" ./configure \
 		--prefix="$PREFIX" \
 		--enable-widec \
 		--with-shared \
@@ -42,7 +42,7 @@ build_ncurses() {
 		--enable-overwrite \
 		--enable-pc-files \
 		--with-pkg-config-libdir="$PREFIX/lib/pkgconfig"
-	run_in_dir "$src" make -j "$JOBS"
+	run_in_dir "$src" env PATH="$(native_build_path)" make -j "$JOBS"
 	run_in_dir "$src" make install
 	write_stamp "ncurses" "$NCURSES_VERSION"
 }
@@ -82,11 +82,11 @@ build_libevent() {
 	ensure_native_build_tools
 	src="$SOURCE_DIR/libevent-$LIBEVENT_VERSION"
 	fetch_source "libevent" "$LIBEVENT_URL" "libevent-$LIBEVENT_VERSION.tar.gz" "$src"
-	run_in_dir "$src" env CC="$CC_BIN" YACC="$YACC_CMD" CPPFLAGS="$(common_cppflags)" LDFLAGS="$(common_ldflags)" PKG_CONFIG_PATH="$(common_pkg_config_path)" ./configure \
+	run_in_dir "$src" env CC="$CC_BIN" YACC="$YACC_CMD" PATH="$(native_build_path)" CPPFLAGS="$(common_cppflags)" LDFLAGS="$(common_ldflags)" PKG_CONFIG_PATH="$(common_pkg_config_path)" ./configure \
 		--prefix="$PREFIX" \
 		--disable-openssl \
 		--disable-samples
-	run_in_dir "$src" make -j "$JOBS"
+	run_in_dir "$src" env PATH="$(native_build_path)" make -j "$JOBS"
 	run_in_dir "$src" make install
 	write_stamp "libevent" "$LIBEVENT_VERSION"
 }

@@ -52,6 +52,7 @@ build_tmux() {
 	run_in_dir "$src" env \
 		CC="$CC_BIN" \
 		YACC="$YACC_CMD" \
+		PATH="$(native_build_path)" \
 		CPPFLAGS="$cppflags" \
 		LDFLAGS="$ldflags" \
 		PKG_CONFIG_PATH="$pkg_config_path" \
@@ -61,7 +62,7 @@ build_tmux() {
 		NCURSES_LIBS="-L$PREFIX/lib -Wl,-rpath,$PREFIX/lib -lncursesw" \
 		LIBS="-lncursesw" \
 		./configure --prefix="$PREFIX"
-	run_in_dir "$src" make -j "$JOBS"
+	run_in_dir "$src" env PATH="$(native_build_path)" make -j "$JOBS"
 	run_in_dir "$src" make install
 	write_stamp "tmux" "$TMUX_VERSION"
 	SELECTED_TMUX_BIN="$PREFIX/bin/tmux"

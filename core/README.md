@@ -13,11 +13,11 @@
 - `managed-files.sh`: timestamped backups and marker-bounded managed block updates.
 - `urls.sh`: download URL construction from pinned versions and platform values.
 - `sources.sh`: install stamp helpers, prefix-safe removal, downloads, archive unpacking, source preparation, and archive-component installs.
-- `build-flags.sh`: shared compiler, linker, and pkg-config flags for prefix builds.
+- `build-flags.sh`: shared compiler, linker, pkg-config, and PATH values for prefix builds.
 
 ## Entry Functions
 
-Other modules call `command_exists`, `ensure_dir`, `run_cmd`, `run_in_dir`, `write_managed_block`, `set_urls`, `fetch_source`, `install_archive_component`, `stamp_matches`, `write_stamp`, `common_cppflags`, `common_ldflags`, and `common_pkg_config_path`.
+Other modules call `command_exists`, `ensure_dir`, `run_cmd`, `run_in_dir`, `write_managed_block`, `set_urls`, `fetch_source`, `install_archive_component`, `stamp_matches`, `write_stamp`, `common_cppflags`, `common_ldflags`, `common_pkg_config_path`, and `native_build_path`.
 
 ## Inputs
 

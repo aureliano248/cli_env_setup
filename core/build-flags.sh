@@ -13,3 +13,11 @@ common_pkg_config_path() {
 		printf '%s\n' "$PREFIX/lib/pkgconfig"
 	fi
 }
+
+native_build_path() {
+	if [ -n "${PATH:-}" ]; then
+		printf '%s:%s\n' "$PREFIX/bin" "$PATH"
+	else
+		printf '%s\n' "$PREFIX/bin"
+	fi
+}

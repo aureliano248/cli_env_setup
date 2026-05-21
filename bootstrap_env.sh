@@ -43,6 +43,7 @@ load_bootstrap_module core/build-flags.sh
 
 load_bootstrap_module cli/args.sh
 load_bootstrap_module platform/detect.sh
+load_bootstrap_module platform/byacc.sh
 
 load_bootstrap_module tmux/deps.sh
 load_bootstrap_module zsh/zsh.sh

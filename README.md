@@ -7,6 +7,7 @@ This project bootstraps a no-sudo command-line environment under a user-owned pr
 The script prefers existing compatible tools before building or installing under the prefix.
 
 - zsh `5.9`
+- byacc `2.0.20260126` when a yacc-compatible parser generator is not already available
 - ncurses `6.5`
 - libevent `2.1.12-stable`
 - tmux `3.6a`
@@ -23,7 +24,7 @@ It supports macOS and Ubuntu-style Linux without requiring `sudo`, package manag
 1. Parse CLI options and normalize paths.
 2. Detect OS, architecture, build jobs, profile file, and download URLs.
 3. Print the run summary and check prerequisites.
-4. Build or reuse ncurses, libevent, zsh, and tmux.
+4. Build or reuse byacc, ncurses, libevent, zsh, and tmux as needed.
 5. Install or reuse Miniforge, then write `.condarc` only for bootstrap-owned Miniforge.
 6. Install or reuse Oh My Zsh and plugins.
 7. Update managed blocks in `.zshrc` and the login profile.

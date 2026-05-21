@@ -25,7 +25,7 @@ Core helpers read globals from `config.sh`, especially `PREFIX`, `SOURCE_DIR`, `
 
 ## Outputs
 
-`config.sh` initializes all process-global defaults. `set_urls` fills URL globals such as `ZSH_URL`, `NCURSES_URL`, `TMUX_URL`, `MINIFORGE_URL`, and plugin URLs.
+`config.sh` initializes all process-global defaults. `set_urls` fills URL globals such as `ZSH_URL`, `BYACC_URL`, `NCURSES_URL`, `TMUX_URL`, `MINIFORGE_URL`, and plugin URLs.
 
 ## Writes
 

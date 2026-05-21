@@ -15,6 +15,7 @@ Options:
 
 Installed versions:
   zsh $ZSH_VERSION
+  byacc $BYACC_VERSION
   ncurses $NCURSES_VERSION
   libevent $LIBEVENT_VERSION
   tmux $TMUX_VERSION
@@ -107,6 +108,7 @@ print_summary() {
 		log ""
 		log "DRY-RUN source URLs:"
 		log "  zsh: $ZSH_URL"
+		log "  byacc: $BYACC_URL"
 		log "  ncurses: $NCURSES_URL"
 		log "  libevent: $LIBEVENT_URL"
 		log "  tmux: $TMUX_URL"

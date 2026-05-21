@@ -98,14 +98,16 @@ find_yacc() {
 		die "YACC is set but its executable was not found: $YACC"
 	fi
 
-	if command_exists yacc; then
+	if [ -n "${PREFIX:-}" ] && [ -x "$PREFIX/bin/yacc" ]; then
+		YACC_CMD="$PREFIX/bin/yacc"
+	elif command_exists yacc; then
 		YACC_CMD=yacc
 	elif command_exists bison; then
 		YACC_CMD="bison -y"
 	elif command_exists byacc; then
 		YACC_CMD=byacc
 	else
-		die "Missing parser generator. Install or expose yacc, bison, or byacc before running this no-sudo bootstrap."
+		return 1
 	fi
 }
 
@@ -143,9 +145,9 @@ check_prerequisites() {
 	fi
 }
 
-ensure_native_build_tools() {
+ensure_c_build_tools() {
 	local missing tool
-	if [ "$NATIVE_BUILD_TOOLS_CHECKED" -eq 1 ]; then
+	if [ "$C_BUILD_TOOLS_CHECKED" -eq 1 ]; then
 		return
 	fi
 
@@ -160,7 +162,19 @@ ensure_native_build_tools() {
 	fi
 
 	find_compiler
-	find_yacc
 	verify_compiler_works
+	C_BUILD_TOOLS_CHECKED=1
+}
+
+ensure_native_build_tools() {
+	if [ "$NATIVE_BUILD_TOOLS_CHECKED" -eq 1 ]; then
+		return
+	fi
+
+	ensure_c_build_tools
+	if ! find_yacc; then
+		build_byacc
+	fi
+	[ -n "$YACC_CMD" ] || die "Failed to select yacc after byacc build."
 	NATIVE_BUILD_TOOLS_CHECKED=1
 }
